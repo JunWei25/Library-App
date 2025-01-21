@@ -6,6 +6,7 @@ import { CheckoutAndReviewBox } from "./CheckoutAndReviewBox";
 import ReviewModel from "../../models/ReviewModel";
 import { LatestReviews } from "./LatestReviews";
 import { useOktaAuth } from "@okta/okta-react";
+import ReviewRequestModel from "../../models/ReviewRequestModel";
 
 export const BookCheckoutPage = () => {
   const { authState } = useOktaAuth();
@@ -175,11 +176,13 @@ export const BookCheckoutPage = () => {
         const requestOptions = {
           method: 'GET',
           headers: {
-            Authorizaion: `Bearer ${authState.accessToken?.accessToken}`,
+            Authorization: `Bearer ${authState.accessToken?.accessToken}`,
             'Content-Type': 'application/json'
           }
         };
+        console.log(authState.accessToken?.accessToken);
         const bookCheckedOut = await fetch(url, requestOptions);
+        console.log(bookCheckedOut);
 
         if (!bookCheckedOut.ok){
           throw new Error('Something went wrong!');
@@ -219,10 +222,21 @@ export const BookCheckoutPage = () => {
       }
     };
     const checkoutResponse = await fetch(url, requestOptions);
+    console.log(checkoutResponse);
     if(!checkoutResponse.ok){
       throw new Error('Something went wrong!');
     }
     setIsCheckedOut(true);
+  }
+
+  async function submitReview(starInput: number, reviewDescription: string) {
+    let bookId: number = 0;
+    if (book?.id) {
+      bookId = book.id;
+    }
+
+    const reviewRequestModel = new ReviewRequestModel(starInput, bookId, reviewDescription);
+    const url = `http://localhost:8080/api/reviews/secure`;
   }
 
   return (

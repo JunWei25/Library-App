@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { PostNewMessage } from "./components/PostNewMessage";
-import { Messages } from "./components/Message";
+import { Messages } from "./components/Messages";
 
 export const MessagesPage = () => {
 

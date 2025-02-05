@@ -16,3 +16,5 @@ class AddBookRequest {
             this.img = this.img;
         }
 }
+
+export default AddBookRequest;
